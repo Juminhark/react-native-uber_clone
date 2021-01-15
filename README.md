@@ -28,6 +28,14 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 ```
 
+### [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
+
+```sh
+> yarn add react-native-google-places-autocomplete
+```
+
+- google APIs : Places API
+
 ## Error
 
 - 1. jdk 설치 문제
