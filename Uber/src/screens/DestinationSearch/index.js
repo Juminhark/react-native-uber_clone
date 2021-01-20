@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, SafeAreaView} from 'react-native';
+import {View, SafeAreaView} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 import styles from './styles';
