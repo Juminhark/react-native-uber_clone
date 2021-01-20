@@ -18,6 +18,13 @@
 > yarn android
 ```
 
+## Error
+
+- 1. jdk 설치 문제
+  - oracle || openjdk
+  - 기존 설치된 oracle은 jre만 있음
+  - Chocolatey : openjdk8 설치로 해결
+
 ### vector-icons
 
 ```sh
@@ -36,9 +43,8 @@ apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 - google APIs : Places API
 
-## Error
+### map
 
-- 1. jdk 설치 문제
-  - oracle || openjdk
-  - 기존 설치된 oracle은 jre만 있음
-  - Chocolatey : openjdk8 설치로 해결
+```sh
+> yarn add react-native-maps -E
+```
