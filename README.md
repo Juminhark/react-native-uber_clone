@@ -4,7 +4,7 @@
 - [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 - [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
 - [react-native-maps](https://github.com/react-native-maps/react-native-maps)
-- [react-native-maps-directions]()
+- [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions)
 
 ## init
 
