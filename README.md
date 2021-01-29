@@ -21,13 +21,6 @@
 > yarn android
 ```
 
-## Error
-
-- 1. jdk 설치 문제
-  - oracle || openjdk
-  - 기존 설치된 oracle은 jre만 있음
-  - Chocolatey : openjdk8 설치로 해결
-
 ### [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 
 ```sh
@@ -88,3 +81,10 @@ buildscript {
 ```
 
 - GoogleAPIs : Directions API
+
+## Error
+
+- 1. jdk 설치 문제
+  - oracle || openjdk
+  - 기존 설치된 oracle은 jre만 있음
+  - Chocolatey : openjdk8 설치로 해결
