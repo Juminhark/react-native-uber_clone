@@ -94,6 +94,16 @@ buildscript {
 - Rotate the cars in the direction of their movement
   - make sure all images (assets) are facing up
 
+### Places Autocomplete styles
+
+### Places Autocomplete Current Location
+
+- [react-native-geolocation/react-native-geolocation](https://github.com/react-native-geolocation/react-native-geolocation)
+  - install geolocation
+  - request permission to use location
+  - use the location in places autocomplete component
+  - add predefined location
+
 ## Error
 
 - 1. jdk 설치 문제
