@@ -3,19 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'UberClone' do
-
-   # React Native Maps dependencies
-    rn_maps_path = '../node_modules/react-native-maps'
-    pod 'react-native-google-maps', :path => rn_maps_path
-    pod 'GoogleMaps'
-    pod 'Google-Maps-iOS-Utils'
-
+target 'Uber' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'UberCloneTests' do
+  target 'UberTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -30,10 +23,10 @@ target 'UberClone' do
   end
 end
 
-target 'UberClone-tvOS' do
-  # Pods for UberClone-tvOS
+target 'Uber-tvOS' do
+  # Pods for Uber-tvOS
 
-  target 'UberClone-tvOSTests' do
+  target 'Uber-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
