@@ -1,23 +1,29 @@
-import React from "react";
+import React from 'react';
 import {View, Text} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import HomeNavigator from "./Home";
-import CustomDrawer from "./CustomDrawer";
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+// import { createDrawerNavigator } from "@react-navigation/drawer";
+// import HomeNavigator from "./Home";
+// import CustomDrawer from "./CustomDrawer";
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
-const DummyScreen = (props) => (
-  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text>{props.name}</Text>
-  </View>
-)
+import HomeScreen from '../screens/HomeScreen';
+import DestinationSearch from '../screens/DestinationSearch';
+import SearchResults from '../screens/SearchResults';
+
+const Stack = createStackNavigator();
+
+// const DummyScreen = (props) => (
+// <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+//   <Text>{props.name}</Text>
+// </View>
+// )
 
 const RootNavigator = (props) => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator drawerContent={
+      {/* <Drawer.Navigator drawerContent={
         (props) => (
           <CustomDrawer {...props} />)
       }>
@@ -39,7 +45,16 @@ const RootNavigator = (props) => {
           {() => <DummyScreen name={"Settings"} />}
         </Drawer.Screen>
 
-      </Drawer.Navigator>
+      </Drawer.Navigator> */}
+
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name={'home'} component={HomeScreen} />
+        <Stack.Screen
+          name={'DestinationSearch'}
+          component={DestinationSearch}
+        />
+        <Stack.Screen name={'SearchResults'} component={SearchResults} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

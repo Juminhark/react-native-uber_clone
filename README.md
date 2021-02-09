@@ -100,10 +100,18 @@ buildscript {
 ### Places Autocomplete Current Location
 
 - [react-native-geolocation/react-native-geolocation](https://github.com/react-native-geolocation/react-native-geolocation)
+
   - install geolocation
+
+  ```
+  > yarn add @react-native-community/geolocation
+  ```
+
   - request permission to use location
   - use the location in places autocomplete component
-  - add predefined location
+  - add predefined location (HOME, WORK)?
+
+### Navigation
 
 ## Error
 
