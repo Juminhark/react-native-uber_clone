@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.uber"
+        applicationId "com.uberclone"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
