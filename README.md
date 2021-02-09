@@ -82,7 +82,6 @@ buildscript {
 
 - GoogleAPIs : Directions API
 
-<<<<<<< HEAD
 ### Maps: Marker direction
 
 - Rotate the cars in the direction of their movement
@@ -98,8 +97,6 @@ buildscript {
   - use the location in places autocomplete component
   - add predefined location
 
-=======
->>>>>>> parent of 96522d1... places_autocomplete
 ## Error
 
 - 1. jdk 설치 문제
