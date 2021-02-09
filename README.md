@@ -1,5 +1,12 @@
 # uber_clone
 
+## reference
+
+- [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners)](https://www.youtube.com/watch?v=sIRcN0MeZVU)
+- [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners) [2]](https://www.youtube.com/watch?v=_U4zgWcw2Ws)
+
+## dependencies
+
 - [React-Native-CLI](https://reactnative.dev/docs/environment-setup)
 - [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 - [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
@@ -23,12 +30,13 @@
 
 ### [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 
-```sh
+```
 > yarn add react-native-vector-icons
+```
 
+```js
 // android : add to the android/app/build.gradle
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-
 ```
 
 ### [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
