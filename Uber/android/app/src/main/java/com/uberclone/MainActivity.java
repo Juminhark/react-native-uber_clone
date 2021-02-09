@@ -1,4 +1,4 @@
-package com.uber;
+package com.uberclone;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Uber";
+    return "UberClone";
   }
 }
