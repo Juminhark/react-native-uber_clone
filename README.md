@@ -1,12 +1,5 @@
 # uber_clone
 
-# reference
-
-- [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners)](https://www.youtube.com/watch?v=sIRcN0MeZVU)
-- [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners)[2] ](https://www.youtube.com/watch?v=_U4zgWcw2Ws)
-
-## dependencies
-
 - [React-Native-CLI](https://reactnative.dev/docs/environment-setup)
 - [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 - [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
@@ -89,6 +82,7 @@ buildscript {
 
 - GoogleAPIs : Directions API
 
+<<<<<<< HEAD
 ### Maps: Marker direction
 
 - Rotate the cars in the direction of their movement
@@ -104,6 +98,8 @@ buildscript {
   - use the location in places autocomplete component
   - add predefined location
 
+=======
+>>>>>>> parent of 96522d1... places_autocomplete
 ## Error
 
 - 1. jdk 설치 문제
