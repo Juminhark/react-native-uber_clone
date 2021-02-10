@@ -111,7 +111,30 @@ buildscript {
   - use the location in places autocomplete component
   - add predefined location (HOME, WORK)?
 
-### Navigation
+### [React Navigation](https://reactnavigation.org/docs/getting-started)
+
+- Install React-Navigation library and follow the installation guide
+
+```
+> yarn add @react-navigation/native
+
+> yarn add react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+```
+
+- Defined all the screens in a Stack Navigator
+- Implement the Navigation between screens
+- Send data between screens
+
+### Drawer Navigation(Hamburger Menu)
+
+- install Drawer Navigation package
+- Setup Basic Drawer Navigation
+- Customize the Drawer Navigation
+
+### try
+
+- where from? : current location
+- where to? : 1750 lundy avenue, san jose, ca
 
 ## Error
 
