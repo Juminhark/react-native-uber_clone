@@ -131,6 +131,31 @@ buildscript {
 - Setup Basic Drawer Navigation
 - Customize the Drawer Navigation
 
+### [Setup AWS Amplify Project](https://docs.amplify.aws/start/q/integration/react-native?sc_icampaign=react-native-start&sc_ichannel=choose-integration)
+
+```
+> amplify init
+
+> Choose your default editor : None
+> Choose the type of app that you`re building : javascript
+> What javascript framework are tou using : react-native
+> Source Directory Paths : /
+
+> yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo
+```
+
+- Configure the App.js
+
+```js
+import Amplify from 'aws-amplify';
+import config from './aws-exports';
+Amplify.configure(config);
+```
+
+### Authentication
+
+<img src="./image/1.png" width="100%" height="100%" alt="typescript-logo"></img>
+
 ### try
 
 - where from? : current location
