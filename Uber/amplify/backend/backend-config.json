@@ -1,19 +1,19 @@
 {
   "function": {
-    "uber9b339fff9b339fffPostConfirmation": {
+    "uber9440930194409301PostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "auth": {
-    "uber9b339fff9b339fff": {
+    "uber9440930194409301": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "uber9b339fff9b339fffPostConfirmation",
+          "resourceName": "uber9440930194409301PostConfirmation",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -33,7 +33,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authuber9b339fff9b339fff"
+              "userPoolId": "authuber9440930194409301"
             }
           },
           "additionalAuthenticationProviders": []

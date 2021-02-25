@@ -4,6 +4,7 @@
 
 - [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners)](https://www.youtube.com/watch?v=sIRcN0MeZVU)
 - [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners) [2]](https://www.youtube.com/watch?v=_U4zgWcw2Ws)
+- [Adding Users to DynamoDB using a Cognito Post-confirmation Lambda Trigger & Exposing a GraphQL API](https://www.youtube.com/watch?v=Sk9HMuAaTmQ)
 
 ## dependencies
 
@@ -133,7 +134,16 @@ buildscript {
 
 ### [Setup AWS Amplify Project](https://docs.amplify.aws/start/q/integration/react-native?sc_icampaign=react-native-start&sc_ichannel=choose-integration)
 
+- [전제조건을 만족하고 진행](https://www.youtube.com/watch?v=fWbM5DLh25U&feature=emb_title)
+
 ```
+> amplify configure
+// region : ap-northeast-2(서울)
+// user name : amplify-user
+// accessKeyId
+// secretAccessKey
+// Profile Name
+
 > amplify init
 
 > Choose your default editor : None
@@ -154,7 +164,54 @@ Amplify.configure(config);
 
 ### Authentication
 
-<img src="./image/1.png" width="100%" height="100%" alt="typescript-logo"></img>
+- [Adding Users to DynamoDB using a Cognito Post-confirmation Lambda Trigger & Exposing a GraphQL API](https://www.youtube.com/watch?v=Sk9HMuAaTmQ)
+  <img src="./image/1.png" width="100%" height="100%" alt="typescript-logo"></img>
+  <img src="./image/2.png" width="100%" height="100%" alt="typescript-logo"></img>
+
+- Setup Authentication
+
+```
+> amplify add auth
+```
+
+- Manual configuration
+- Setup Lambda Triggers: Post confirmation
+- create own module
+- configure App.js
+
+### GraphQL API
+
+- init
+
+```
+> amplify add api
+```
+
+- 1.  Write User Model
+
+```js
+// amplify / backend / api / uber / schema.graphql
+type User @model {
+  id: ID!
+  username: String!
+  email: String!
+}
+```
+
+- 2.  Push everything to the cloud (amplify push)
+
+```
+> amplify push
+
+> amplify console
+> Which site do you want to open? · Console
+```
+
+### Finish set-up of Lambda Function
+
+- set the user table name as env variable
+- give access to lambda to access the dynamoDB
+- test it out
 
 ### try
 
@@ -164,6 +221,42 @@ Amplify.configure(config);
 ## Error
 
 - 1. jdk 설치 문제
+
   - oracle || openjdk
   - 기존 설치된 oracle은 jre만 있음
   - Chocolatey : openjdk8 설치로 해결
+
+- 2.  [module naming collision](https://github.com/aws-amplify/amplify-cli/issues/3295)
+
+```sh
+jest-haste-map: Haste module naming collision: uber9440930194409301PostConfirmation
+  The following files share their name; please adjust your hasteImpl:
+    * <rootDir>\amplify\#current-cloud-backend\function\uber9440930194409301PostConfirmation\src\package.json
+    * <rootDir>\amplify\backend\function\uber9440930194409301PostConfirmation\src\package.json
+
+Failed to construct transformer:  DuplicateError: Duplicated files or mocks. Please check the console for more info
+    at setModule (C:\DEV\uber_clone\Uber\node_modules\metro\node_modules\jest-haste-map\build\index.js:620:17)
+    at workerReply (C:\DEV\uber_clone\Uber\node_modules\metro\node_modules\jest-haste-map\build\index.js:691:9)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at async Promise.all (index 39) {
+  mockPath1: 'amplify\\#current-cloud-backend\\function\\uber9440930194409301PostConfirmation\\src\\package.json',
+  mockPath2: 'amplify\\backend\\function\\uber9440930194409301PostConfirmation\\src\\package.json'
+}
+```
+
+```js
+// metro.config.js
+module.exports = {
+	resolver: {
+		blacklistRE: /#current-cloud-backend\/.*/,
+	},
+	transformer: {
+		getTransformOptions: async () => ({
+			transform: {
+				experimentalImportSupport: false,
+				inlineRequires: false,
+			},
+		}),
+	},
+};
+```

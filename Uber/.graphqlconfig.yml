@@ -1,0 +1,12 @@
+projects:
+  uber:
+    schemaPath: 'C:/DEV/uber_clone/Uber/graphql/schema.json'
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: 'C:/DEV/uber_clone/Uber/graphql'
