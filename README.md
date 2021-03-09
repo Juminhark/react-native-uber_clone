@@ -6,7 +6,9 @@
 - [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners) [2]](https://www.youtube.com/watch?v=_U4zgWcw2Ws)
 - [Adding Users to DynamoDB using a Cognito Post-confirmation Lambda Trigger & Exposing a GraphQL API](https://www.youtube.com/watch?v=Sk9HMuAaTmQ)
 
-## dependencies
+## UberUserApp
+
+### dependencies
 
 - [React-Native-CLI](https://reactnative.dev/docs/environment-setup)
 - [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
@@ -14,7 +16,7 @@
 - [react-native-maps](https://github.com/react-native-maps/react-native-maps)
 - [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions)
 
-## init
+### init
 
 - Chocolatey : openjdk8
 - 환경변수 : JAVA_HOME, ANDROID_HOME, path 등록.
@@ -165,8 +167,8 @@ Amplify.configure(config);
 ### Authentication
 
 - [Adding Users to DynamoDB using a Cognito Post-confirmation Lambda Trigger & Exposing a GraphQL API](https://www.youtube.com/watch?v=Sk9HMuAaTmQ)
-  <img src="./image/1.png" width="100%" height="100%" alt="typescript-logo"></img>
-  <img src="./image/2.png" width="100%" height="100%" alt="typescript-logo"></img>
+  <img src="./assets/1.png" width="100%" height="100%" alt="typescript-logo"></img>
+  <img src="./assets/2.png" width="100%" height="100%" alt="typescript-logo"></img>
 
 - Setup Authentication
 
@@ -217,6 +219,21 @@ type User @model {
 
 - where from? : current location
 - where to? : 1750 lundy avenue, san jose, ca
+
+## UberDriver
+
+### init
+
+```sh
+> npx react-native init DriverApp
+
+> cd DriverApp
+
+> yarn start
+
+// another terminal
+> yarn android
+```
 
 ## Error
 
