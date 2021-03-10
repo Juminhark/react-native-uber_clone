@@ -22,9 +22,9 @@
 - 환경변수 : JAVA_HOME, ANDROID_HOME, path 등록.
 
 ```sh
-> npx react-native init Uber
+> npx react-native init UserApp
 
-> cd Uber
+> cd UserApp
 > yarn start
 
 // New Terminal
@@ -42,13 +42,44 @@
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 ```
 
+```js
+// Icon Component
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const myIcon = <Icon name="rocket" size={30} color="#900" />;
+```
+
+### Home Screen
+
+- Dummy Map component
+- Message Box
+- Where to? Component
+
+### Search Page
+
+- Location input boxes
+- Default locations (Home, Work)
+- Location row
+
 ### [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
+
+- install library
+
+-
 
 ```sh
 > yarn add react-native-google-places-autocomplete
 ```
 
-- google APIs : Places API
+- [enable google APIs : Places API](https://console.developers.google.com/apis/dashboard?project=map-api-296313&hl=ko&pli=1)
+- make sure billing is enabled
+- get api key
+
+### Search Result
+
+- Dummy Map view
+- List of User cars
+- Confirm Uber ride
 
 ### [react-native-maps](https://github.com/react-native-maps/react-native-maps)
 
