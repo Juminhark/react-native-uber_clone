@@ -91,8 +91,8 @@ const myIcon = <Icon name="rocket" size={30} color="#900" />;
 
 - "react-native": "0.63.4", Build configuration on Android
 
-```sh
-//! android/build.gradle
+```js
+// android/build.gradle
 ...
 buildscript {
     ext {
@@ -103,20 +103,41 @@ buildscript {
 }
 ...
 
-
-//! android/app/src/main/AndroidManifest.xml
+// android/app/src/main/AndroidManifest.xml
 <application>
-    //# You will only need to add this meta-data tag, but make sure it's a child of application
-   <meta-data
-     android:name="com.google.android.geo.API_KEY"
-     android:value="Your Google maps API Key Here"/>
 
-    //# You will also only need to add this uses-library tag
-   <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+  ...
+
+  <!-- # You will only need to add this meta-data tag, but make sure it's a child of application -->
+  <meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="Your Google maps API Key Here"/>
+
+  <!-- # You will also only need to add this uses-library tag -->
+  <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 </application>
 ```
 
-### [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions)
+- test
+
+```js
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+
+<MapView
+	style={{ width: '100%', height: '100%' }}
+	provider={rPROVIDER_GOOGLE}
+	initialRegion={{
+		latitude: 37.78825,
+		longitude: -122.4324,
+		latitudeDelta: 0.0922,
+		longitudeDelta: 0.0421,
+	}}
+/>;
+```
+
+### Maps Directions
+
+- [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions)
 
 ```sh
 > yarn add react-native-maps-directions
@@ -124,10 +145,115 @@ buildscript {
 
 - GoogleAPIs : Directions API
 
+```js
+// RouteMap
+import React from 'react';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
+
+const GOOGLE_MAPS_APIKEY = 'AIzaSyDR2YUfnM9t9YIqMuLtCe-8iSG2hul3kJU';
+
+const RouteMap = (props) => {
+	const origin = {
+		latitude: 28.450627,
+		longitude: -16.269745,
+	};
+
+	const destination = {
+		latitude: 28.451537,
+		longitude: -16.261045,
+	};
+
+	return (
+		<MapView
+			style={{ width: '100%', height: '100%' }}
+			provider={PROVIDER_GOOGLE}
+			showsUserLocation={true}
+			initialRegion={{
+				latitude: 28.450627,
+				longitude: -16.263045,
+				latitudeDelta: 0.0222,
+				longitudeDelta: 0.0121,
+			}}
+		>
+			<MapViewDirections
+				origin={origin}
+				destination={destination}
+				apikey={GOOGLE_MAPS_APIKEY}
+				strokeWidth={5}
+				strokeColor="black"
+			/>
+			<Marker coordinate={origin} title={'Origin'} />
+			<Marker coordinate={destination} title={'Destination'} />
+		</MapView>
+	);
+};
+
+export default RouteMap;
+```
+
 ### Maps: Marker direction
 
 - Rotate the cars in the direction of their movement
   - make sure all images (assets) are facing up
+
+```js
+// car
+export default [
+	{
+		id: '0',
+		type: 'UberX',
+		latitude: 28.450627,
+		longitude: -16.263045,
+		heading: 130,
+	},
+	{
+		id: '1',
+		type: 'Comfort',
+		latitude: 28.456312,
+		longitude: -16.252929,
+		heading: 0,
+	},
+	{
+		id: '2',
+		type: 'UberXL',
+		latitude: 28.456208,
+		longitude: -16.259098,
+		heading: 250,
+	},
+	{
+		id: '3',
+		type: 'Comfort',
+		latitude: 28.454812,
+		longitude: -16.258658,
+		heading: 30,
+	},
+];
+
+// HomeMap
+{
+	cars.map((car) => (
+		<Marker
+			key={car.id}
+			coordinate={{ latitude: car.latitude, longitude: car.longitude }}
+		>
+			<Image
+				style={{
+					width: 70,
+					height: 70,
+					resizeMode: 'contain',
+					transform: [
+						{
+							rotate: `${car.heading}deg`,
+						},
+					],
+				}}
+				source={getImage(car.type)}
+			/>
+		</Marker>
+	));
+}
+```
 
 ### Places Autocomplete styles
 
@@ -141,18 +267,70 @@ buildscript {
   > yarn add @react-native-community/geolocation
   ```
 
-  - request permission to use location
-  - use the location in places autocomplete component
-  - add predefined location (HOME, WORK)?
+  ```js
+  // android/app/src/main/AndroidManifest.xml
+  <!-- To request access to location, you need to add the following line to your app -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  ```
+
+- request permission to use location
+
+```js
+// App.js
+import React, {useEffect} from 'react';
+import {StatusBar, PermissionsAndroid, Platform} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+
+navigator.geolocation = require('@react-native-community/geolocation');
+
+const App: () => React$Node = () => {
+  const androidPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Uber App Location Permission',
+          message:
+            'Uber App needs access to your location ' +
+            'so you can take awesome rides.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the location');
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      androidPermission();
+    } else {
+      // IOS
+      Geolocation.requestAuthorization();
+    }
+  }, []);
+```
+
+- use the location in places autocomplete component
+- add predefined location (HOME, WORK)?
 
 ### [React Navigation](https://reactnavigation.org/docs/getting-started)
 
 - Install React-Navigation library and follow the installation guide
 
 ```
+
 > yarn add @react-navigation/native
 
 > yarn add react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
 ```
 
 - Defined all the screens in a Stack Navigator
@@ -170,12 +348,13 @@ buildscript {
 - [전제조건을 만족하고 진행](https://www.youtube.com/watch?v=fWbM5DLh25U&feature=emb_title)
 
 ```
+
 > amplify configure
-// region : ap-northeast-2(서울)
-// user name : amplify-user
-// accessKeyId
-// secretAccessKey
-// Profile Name
+> // region : ap-northeast-2(서울)
+> // user name : amplify-user
+> // accessKeyId
+> // secretAccessKey
+> // Profile Name
 
 > amplify init
 
@@ -185,6 +364,7 @@ buildscript {
 > Source Directory Paths : /
 
 > yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo
+
 ```
 
 - Configure the App.js
