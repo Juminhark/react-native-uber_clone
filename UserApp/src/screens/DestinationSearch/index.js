@@ -8,7 +8,7 @@ import PlaceRow from './PlaceRow';
 
 const homePlace = {
   description: 'Home',
-  geometry: {location: {lat: 48.8152937, lng: 2.4597668}},
+  geometry: {location: {lat: 28.4583, lng: -16.2653}},
 };
 const workPlace = {
   description: 'Work',

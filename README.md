@@ -2,8 +2,7 @@
 
 ## reference
 
-- [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners)](https://www.youtube.com/watch?v=sIRcN0MeZVU)
-- [Vadim Savin - Build the Uber clone in React Native (Tutorial for Beginners) [2]](https://www.youtube.com/watch?v=_U4zgWcw2Ws)
+- [Vadim Savin - UberClone](https://www.youtube.com/playlist?list=PLY3ncAV1dSVDkO8RF_H6kMykUce9X2jkc)
 - [Adding Users to DynamoDB using a Cognito Post-confirmation Lambda Trigger & Exposing a GraphQL API](https://www.youtube.com/watch?v=Sk9HMuAaTmQ)
 
 ## UberUserApp
@@ -514,8 +513,53 @@ Amplify.configure(config);
 
 - Manual configuration
 - Setup Lambda Triggers: Post confirmation
+
+```js
+// amplify/backend/function/[]/src/custom.js
+const aws = require('aws-sdk');
+const ddb = new aws.DynamoDB();
+
+exports.handler = async (event, context) => {
+	let date = new Date();
+	if (event.request.userAttributes.sub) {
+		let params = {
+			Item: {
+				id: { S: event.request.userAttributes.sub },
+				__typename: { S: 'User' },
+				username: { S: event.userName },
+				email: { S: event.request.userAttributes.email },
+				createdAt: { S: date.toISOString() },
+				updatedAt: { S: date.toISOString() },
+			},
+			TableName: process.env.USERTABLE,
+		};
+
+		try {
+			await ddb.putItem(params).promise();
+			console.log('Success');
+		} catch (err) {
+			console.log('Error', err);
+		}
+
+		console.log('Success: Everything executed correctly');
+		context.done(null, event);
+	} else {
+		console.log('Error: Nothing was written to DynamoDB');
+		context.done(null, event);
+	}
+};
+```
+
 - create own module
 - configure App.js
+
+```js
+// App.js
+
+import { withAuthenticator } from 'aws-amplify-react-native';
+
+export default withAuthenticator(App);
+```
 
 ### GraphQL API
 
@@ -579,7 +623,28 @@ type User @model {
   - 기존 설치된 oracle은 jre만 있음
   - Chocolatey : openjdk8 설치로 해결
 
-- 2.  [module naming collision](https://github.com/aws-amplify/amplify-cli/issues/3295)
+- 2. [Importing createDrawerNavigator throws 'NativeReanimated' error.](https://www.gitmemory.com/issue/software-mansion/react-native-reanimated/1798/792790745)
+
+```
+ERROR  Invariant Violation: TurboModuleRegistry.getEnforcing(...): 'NativeReanimated' could not be found. Verify that a module by this name
+is registered in the native binary.
+
+ ERROR  Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication)
+```
+
+```js
+// 2.0.0으로 버전업에서 나타나는 현상으로 보임
+"react-native-reanimated": "^2.0.0"
+```
+
+```sh
+// 1.3.2 버젼으로 재설치
+> yarn remove react-native-reanimated
+
+> yarn add react-native-reanimated@1.3.2
+```
+
+- 3.  [module naming collision](https://stackoverflow.com/questions/58838038/haste-module-naming-collision-react-native-app-with-aws-service-amplify-projec)
 
 ```sh
 jest-haste-map: Haste module naming collision: uber9440930194409301PostConfirmation
@@ -599,10 +664,16 @@ Failed to construct transformer:  DuplicateError: Duplicated files or mocks. Ple
 
 ```js
 // metro.config.js
+
+// add on top
+const blacklist = require('metro-config/src/defaults/blacklist');
+
 module.exports = {
+	//add within module export
 	resolver: {
-		blacklistRE: /#current-cloud-backend\/.*/,
+		blacklistRE: blacklist([/#current-cloud-backend\/.*/]),
 	},
+
 	transformer: {
 		getTransformOptions: async () => ({
 			transform: {
@@ -612,25 +683,4 @@ module.exports = {
 		}),
 	},
 };
-```
-
-- 3. [Importing createDrawerNavigator throws 'NativeReanimated' error.](https://www.gitmemory.com/issue/software-mansion/react-native-reanimated/1798/792790745)
-
-```
-ERROR  Invariant Violation: TurboModuleRegistry.getEnforcing(...): 'NativeReanimated' could not be found. Verify that a module by this name
-is registered in the native binary.
-
- ERROR  Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication)
-```
-
-```js
-// 2.0.0으로 버전업에서 나타나는 현상으로 보임
-"react-native-reanimated": "^2.0.0"
-```
-
-```sh
-// 1.3.2 버젼으로 재설치
-> yarn remove react-native-reanimated
-
-> yarn add react-native-reanimated@1.3.2
 ```

@@ -9,10 +9,12 @@ import {useRoute} from '@react-navigation/native';
 const SearchResults = (props) => {
   const route = useRoute();
 
+  const {originPlace, destinationPlace} = route.params;
+
   return (
     <View style={{display: 'flex', justifyContent: 'space-between'}}>
       <View style={{height: Dimensions.get('window').height - 400}}>
-        <RouteMap />
+        <RouteMap origin={originPlace} destination={destinationPlace} />
       </View>
 
       <View style={{height: 400}}>
@@ -23,3 +25,5 @@ const SearchResults = (props) => {
 };
 
 export default SearchResults;
+
+//Via Transversal 3 los Llanos, 1, 38003 Santa Cruz de Tenerife, Spain
