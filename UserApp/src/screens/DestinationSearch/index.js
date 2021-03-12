@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, TextInput, SafeAreaView} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {useNavigation} from '@react-navigation/native';
 
 import styles from './styles.js';
 import PlaceRow from './PlaceRow';
@@ -18,11 +19,20 @@ const DestinationSearch = () => {
   const [originPlace, setOriginPlace] = useState(null);
   const [destinationPlace, setDestinationPlace] = useState(null);
 
-  useEffect(() => {
+  const navigation = useNavigation();
+
+  const checkNavigation = () => {
     //! 출발지 && 목적지가 설정되면 result로 이동
     if (originPlace && destinationPlace) {
-      console.warn('redirect to results');
+      navigation.navigate('SearchResults', {
+        originPlace,
+        destinationPlace,
+      });
     }
+  };
+
+  useEffect(() => {
+    checkNavigation();
   }, [originPlace, destinationPlace]);
 
   return (

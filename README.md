@@ -326,20 +326,145 @@ const App: () => React$Node = () => {
 - Install React-Navigation library and follow the installation guide
 
 ```
-
 > yarn add @react-navigation/native
 
 > yarn add react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 
 ```
 
+```js
+// App.js
+import 'react-native-gesture-handler';
+
+import Router from './src/navigation/Root';
+
+const App: () => React$Node = () => {
+	return (
+		<>
+			<Router />
+		</>
+	);
+};
+
+export default App;
+```
+
+```js
+// Root.js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+
+import HomeScreen from '../screens/HomeScreen';
+
+const RootNavigator = (props) => {
+	return (
+		<NavigationContainer>
+			<HomeScreen />
+		</NavigationContainer>
+	);
+};
+
+export default RootNavigator;
+```
+
 - Defined all the screens in a Stack Navigator
+
+```
+> yarn add @react-navigation/stack
+```
+
+```js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+import HomeScreen from '../screens/HomeScreen';
+import DestinationSearch from '../screens/DestinationSearch';
+import SearchResults from '../screens/SearchResults';
+
+const RootNavigator = (props) => {
+	return (
+		<NavigationContainer>
+			<Stack.Navigator>
+				<Stack.Screen name={'Home'} component={HomeScreen} />
+				<Stack.Screen
+					name={'DestinationSearch'}
+					component={DestinationSearch}
+				/>
+				<Stack.Screen name={'SearchResults'} component={SearchResults} />
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
+};
+
+export default RootNavigator;
+```
+
 - Implement the Navigation between screens
+
+```js
+
+// HomeSearch
+import {useNavigation} from '@react-navigation/native';
+
+const HomeSearch = (props) => {
+  const navigation = useNavigation();
+
+  const goToSearch = () => {
+    // stack screen간 이동.
+    navigation.navigate('DestinationSearch');
+  };
+
+  return (
+    <View>
+      {/*  Input Box */}
+      <Pressable onPress={goToSearch} style={styles.inputBox}>
+        <Text style={styles.inputText}>Where To?</Text>
+      </Pressable>
+  )
+}
+```
+
 - Send data between screens
 
-### Drawer Navigation(Hamburger Menu)
+```js
+// 보내는쪽
+const checkNavigation = () => {
+	//! 출발지 && 목적지가 설정되면 result로 이동
+	if (originPlace && destinationPlace) {
+		navigation.navigate('SearchResults', {
+			originPlace,
+			destinationPlace,
+		});
+	}
+};
+
+useEffect(() => {
+	checkNavigation();
+}, [originPlace, destinationPlace]);
+```
+
+```js
+// 받는쪽
+import { useRoute } from '@react-navigation/native';
+
+const SearchResults = (props) => {
+	const route = useRoute();
+
+	console.log(route.params);
+};
+```
+
+### [Drawer Navigation(Hamburger Menu)](https://reactnavigation.org/docs/drawer-based-navigation/)
 
 - install Drawer Navigation package
+
+```
+> yarn add @react-navigation/drawer
+```
+
 - Setup Basic Drawer Navigation
 - Customize the Drawer Navigation
 
@@ -487,4 +612,25 @@ module.exports = {
 		}),
 	},
 };
+```
+
+- 3. [Importing createDrawerNavigator throws 'NativeReanimated' error.](https://www.gitmemory.com/issue/software-mansion/react-native-reanimated/1798/792790745)
+
+```
+ERROR  Invariant Violation: TurboModuleRegistry.getEnforcing(...): 'NativeReanimated' could not be found. Verify that a module by this name
+is registered in the native binary.
+
+ ERROR  Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication)
+```
+
+```js
+// 2.0.0으로 버전업에서 나타나는 현상으로 보임
+"react-native-reanimated": "^2.0.0"
+```
+
+```sh
+// 1.3.2 버젼으로 재설치
+> yarn remove react-native-reanimated
+
+> yarn add react-native-reanimated@1.3.2
 ```
