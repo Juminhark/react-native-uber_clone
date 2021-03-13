@@ -569,7 +569,7 @@ export default withAuthenticator(App);
 > amplify add api
 ```
 
-- 1.  Write User Model
+- 1.  Write Model
 
 ```js
 // amplify / backend / api / uber / schema.graphql
@@ -577,7 +577,33 @@ type User @model {
   id: ID!
   username: String!
   email: String!
+
+  orders: [Order] @connection(keyName: "byCar", fields: ["id"])
 }
+
+type Car @model {
+  id: ID!
+  type: String!
+  latitude: Float
+  longitude: Float
+  heading: Float
+
+  orders: [Order] @connection(keyName: "byCar", fields: ["id", "createdAt"])
+}
+
+type Order
+  @model
+  @key(name: "byUser", fields: ["userId"])
+  @key(name: "byCar", fields: ["carId"]) {
+  id: ID!
+
+  userId: String!
+  user: User @connection(fields: ["userId"])
+
+  carId: String
+  car: Car @connection(fields: ["carId"])
+}
+
 ```
 
 - 2.  Push everything to the cloud (amplify push)
@@ -587,6 +613,134 @@ type User @model {
 
 > amplify console
 > Which site do you want to open? · Console
+```
+
+- 3. remove dummy data && fetch data from API
+
+```js
+// HomeMap.js
+import {API, graphqlOperation} from 'aws-amplify';
+import {listCars} from '../../graphql/queries';
+
+const HomeMap = (props) => {
+  const [cars, setCars] = useState([]);
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const response = await API.graphql(graphqlOperation(listCars));
+
+        setCars(response.data.listCars.items)
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchCars();
+  });
+```
+
+```js
+// SearchResults.js
+import {API, graphqlOperation, Auth} from 'aws-amplify';
+import { createOrder } from '../../graphql/mutations';
+
+const SearchResults = (props) => {
+
+  const typeState = useState(null);
+
+ const navigation = useNavigation();
+
+ const onSubmit = async () => {
+  const [type] = typeState;
+  if (!type) {
+   return;
+  }
+
+  // submit to server
+  try {
+      const userInfo = await Auth.currentAuthenticatedUser();
+
+      const date = new Date();
+
+      const input = {
+        createdAt: date.toISOString(),
+        type,
+        originLatitude: originPlace.details.geometry.location.lat,
+        originLongitude: originPlace.details.geometry.location.lng,
+
+        destLatitude: destinationPlace.details.geometry.location.lat,
+        destLongitude: destinationPlace.details.geometry.location.lng,
+
+        userId: userInfo.attributes.sub,
+        carId: '1',
+      };
+
+   const response = await API.graphql(
+        graphqlOperation(createOrder, {input: input}),
+      );
+
+   Alert.alert('Hurray', 'Your order has been submitted', [
+        {
+          text: 'Go home',
+          onPress: () => navigation.navigate('Home'),
+        },
+      ]);
+  } catch (e) {
+   console.error(e);
+  }
+  };
+
+  return (
+   <UberTypes typeState={typeState} onSubmit={onSubmit}/>
+  );
+};
+
+// UberTypes.js
+const UberTypes = ({typeState, onSubmit}) => {
+  const [selectedType, setSelectedType] = typeState;
+
+  return (
+
+      {typesData.map((type) => (
+        <UberTypeRow
+          type={type}
+          key={type.id}
+          isSelected={type.type === selectedType}
+          onPress={() => setSelectedType(type.type)}
+        />
+      ))}
+
+   <Pressable
+   onPress={onSubmit}
+   style={{
+    backgroundColor: 'black',
+    padding: 10,
+    margin: 10,
+    alignItems: 'center',
+   }}>
+   <Text style={{color: 'white', fontWeight: 'bold'}}>Confirm Uber</Text>
+  </Pressable>
+
+  );
+};
+
+// UberTypeRow.js
+const UberTypeRow = (props) => {
+ const {type, onPress, isSelected} = props;
+
+  return (
+    <Pressable
+      onPress={onPress}
+      style={[
+        styles.container,
+        {backgroundColor: isSelected ? '#efefef' : 'white'},
+      ]}>
+
+    </Pressable>
+  );
+};
+
 ```
 
 ### Finish set-up of Lambda Function
