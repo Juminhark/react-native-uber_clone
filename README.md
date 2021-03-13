@@ -30,7 +30,9 @@
 > yarn android
 ```
 
-### [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
+### [react-native-vector-icons](https://oblador.github.io/react-native-vector-icons/)
+
+- [install vector icons](https://github.com/oblador/react-native-vector-icons)
 
 ```
 > yarn add react-native-vector-icons
@@ -38,14 +40,21 @@
 
 ```js
 // android : add to the android/app/build.gradle
+...
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 ```
 
-```js
-// Icon Component
-import Icon from 'react-native-vector-icons/FontAwesome';
+- Usage
 
-const myIcon = <Icon name="rocket" size={30} color="#900" />;
+```js
+import Entypo from 'react-native-vector-icons/Entypo';
+
+const App: () => Node = () => {
+ return (
+    ...
+    <Entypo name={'user'} />;
+  );
+};
 ```
 
 ### Home Screen
@@ -63,8 +72,6 @@ const myIcon = <Icon name="rocket" size={30} color="#900" />;
 ### [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete)
 
 - install library
-
--
 
 ```sh
 > yarn add react-native-google-places-autocomplete
@@ -134,9 +141,9 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 />;
 ```
 
-### Maps Directions
+### [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions)
 
-- [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions)
+- Installation
 
 ```sh
 > yarn add react-native-maps-directions
@@ -768,6 +775,12 @@ const UberTypeRow = (props) => {
 // another terminal
 > yarn android
 ```
+
+### react-native-vector-icons
+
+### react-native-maps
+
+### react-native-maps-directions
 
 ## Error
 
