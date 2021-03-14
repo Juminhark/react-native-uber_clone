@@ -110,18 +110,24 @@ buildscript {
 ...
 
 // android/app/src/main/AndroidManifest.xml
-<application>
+<manifest>
 
-  ...
+  <!-- To request access to location, you need to add the following line to your app -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-  <!-- # You will only need to add this meta-data tag, but make sure it's a child of application -->
-  <meta-data
-    android:name="com.google.android.geo.API_KEY"
-    android:value="Your Google maps API Key Here"/>
+  <application>
 
-  <!-- # You will also only need to add this uses-library tag -->
-  <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-</application>
+    ...
+
+    <!-- # You will only need to add this meta-data tag, but make sure it's a child of application -->
+    <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="Your Google maps API Key Here"/>
+
+    <!-- # You will also only need to add this uses-library tag -->
+    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+  </application>
+</manifest>
 ```
 
 - test
@@ -781,6 +787,22 @@ const UberTypeRow = (props) => {
 ### react-native-maps
 
 ### react-native-maps-directions
+
+### Home Screen
+
+- Render the map, with user location
+- Render all the buttons on the screen
+- Switch from offline to online
+
+### New Ride pop-up
+
+- Render the popup
+- On decline, remove from list
+- On press, start ride
+
+### Pick up the client
+
+- Show route to the client
 
 ## Error
 
