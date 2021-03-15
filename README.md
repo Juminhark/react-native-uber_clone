@@ -3,7 +3,7 @@
 ## reference
 
 - [Vadim Savin - UberClone](https://www.youtube.com/playlist?list=PLY3ncAV1dSVDkO8RF_H6kMykUce9X2jkc)
-- [5](https://www.youtube.com/watch?v=E95VMb6nzKc)
+- [uild the Uber Driver App in React Native & AWS Amplify (Tutorial for Beginners) Part [5]](https://www.youtube.com/watch?v=E95VMb6nzKc)
 - [Adding Users to DynamoDB using a Cognito Post-confirmation Lambda Trigger & Exposing a GraphQL API](https://www.youtube.com/watch?v=Sk9HMuAaTmQ)
 
 ## UberUserApp
@@ -805,21 +805,109 @@ const UberTypeRow = (props) => {
 
 - Show route to the client
 
+### Configure Amplify in Driver App
+
+- 1. Pull the existing backend in the Driver app
+
+```
+> cd DriverApp
+
+> amplify pull
+```
+
+- 2. Keep the backend definition in only one app(User app)
+- 3. install amplify packages
+
+```sh
+> yarn add aws-amplify aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo
+```
+
+```js
+import Amplify from 'aws-amplify';
+import config from './aws-exports';
+
+Amplify.configure(config);
+```
+
+### Configure Authentication
+
+```js
+import { withAuthenticator } from 'aws-amplify-react-native';
+
+export default withAuthenticator(App);
+```
+
+### Configure Authentication
+
+- 1. Add a 1 to 1 relationship between a user and a car(User drives a car)
+
+```js
+type User @model {
+  id: ID!
+  username: String!
+  email: String!
+
+  orders: [Order] @connection(keyName: "byUser", fields: ["id"])
+  car: Car @connection(fields: ["id"])
+}
+
+type Car @model @key(name: "byUser", fields: ["userId"]) {
+  id: ID!
+  type: String!
+  latitude: Float
+  longitude: Float
+  heading: Float
+  isActive: Boolean
+
+  orders: [Order] @connection(keyName: "byCar", fields: ["id"])
+
+  userId: ID!
+  user: User @connection(fields: ["userId"])
+}
+
+type Order
+  @model
+  @key(name: "byUser", fields: ["userId"])
+  @key(name: "byCar", fields: ["carId", "createdAt"]) {
+  id: ID!
+  createdAt: String!
+
+  type: String!
+  status: String
+
+  originLatitude: Float!
+  originLongitude: Float!
+
+  destLatitude: Float!
+  destLongitude: Float!
+
+  userId: ID!
+  user: User @connection(fields: ["userId"])
+
+  carId: ID!
+  car: Car @connection(fields: ["carId"])
+}
+```
+
+- 2. Create a new Car Object, when a new driver sign up
+
 ## Error
 
 - 1. jdk 설치 문제
 
-  - oracle || openjdk
-  - 기존 설치된 oracle은 jre만 있음
-  - Chocolatey : openjdk8 설치로 해결
+- oracle || openjdk
+- 기존 설치된 oracle은 jre만 있음
+- Chocolatey : openjdk8 설치로 해결
 
 - 2. [Importing createDrawerNavigator throws 'NativeReanimated' error.](https://www.gitmemory.com/issue/software-mansion/react-native-reanimated/1798/792790745)
 
 ```
-ERROR  Invariant Violation: TurboModuleRegistry.getEnforcing(...): 'NativeReanimated' could not be found. Verify that a module by this name
+
+ERROR Invariant Violation: TurboModuleRegistry.getEnforcing(...): 'NativeReanimated' could not be found. Verify that a module by this name
 is registered in the native binary.
 
- ERROR  Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication)
+ERROR Invariant Violation: Module AppRegistry is not a registered callable module (calling runApplication)
+
 ```
 
 ```js
