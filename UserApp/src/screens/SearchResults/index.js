@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Dimensions, Alert} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import {API, graphqlOperation, Auth} from 'aws-amplify';
 
 import RouteMap from '../../components/RouteMap';
@@ -39,19 +39,14 @@ const SearchResults = (props) => {
 
         userId: userInfo.attributes.sub,
         carId: '1',
+        status: 'NEW',
       };
 
       const response = await API.graphql(
         graphqlOperation(createOrder, {input: input}),
       );
 
-      console.log(response);
-      Alert.alert('Hurray', 'Your order has been submitted', [
-        {
-          text: 'Go home',
-          onPress: () => navigation.navigate('Home'),
-        },
-      ]);
+      navigation.navigate('OrderPage', {id: response.data.createOrder.id});
     } catch (e) {
       console.error(e);
     }
@@ -71,5 +66,3 @@ const SearchResults = (props) => {
 };
 
 export default SearchResults;
-
-//Via Transversal 3 los Llanos, 1, 38003 Santa Cruz de Tenerife, Spain

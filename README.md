@@ -891,6 +891,21 @@ type Order
 
 - 2. Create a new Car Object, when a new driver sign up
 
+### Update availability of the car
+
+- 1. Query the availability of the car
+- 2. Update the availability oin database, when driver changes the availability
+
+### Orders
+
+- 1. when we open the driver app query existing orders(only unfulfilled orders).
+- 2. Confirm order (update the carId and status of the order)
+- 3. Subscribe to new Order
+
+### Update Car Position
+
+- When the car changes position, update this the backend
+
 ## Error
 
 - 1. jdk 설치 문제

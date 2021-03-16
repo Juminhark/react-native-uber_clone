@@ -16,7 +16,6 @@ export const createCar = /* GraphQL */ `
     }
   }
 `;
-
 export const updateCar = /* GraphQL */ `
   mutation UpdateCar(
     $input: UpdateCarInput!
@@ -47,10 +46,17 @@ export const updateOrder = /* GraphQL */ `
       type
       status
       originLatitude
-      oreiginLongitude
+      originLongitude
       destLatitude
       destLongitude
       userId
+      user {
+        id
+        username
+        email
+        createdAt
+        updatedAt
+      }
       carId
       updatedAt
     }

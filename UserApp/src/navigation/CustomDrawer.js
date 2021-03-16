@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable} from 'react-native';
 import {
   DrawerContentScrollView,
@@ -7,6 +7,21 @@ import {
 import {Auth} from 'aws-amplify';
 
 const CustomDrawer = (props) => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const getUserInfo = async () => {
+    try {
+      const userInfo = await Auth.currentAuthenticatedUser();
+
+      setCurrentUser(userInfo);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   return (
     <DrawerContentScrollView {...props}>
       <View style={{backgroundColor: '#212121', padding: 15}}>
@@ -27,7 +42,9 @@ const CustomDrawer = (props) => {
           />
 
           <View>
-            <Text style={{color: 'white', fontSize: 24}}>Vadim Savin</Text>
+            <Text style={{color: 'white', fontSize: 24}}>
+              {currentUser ? currentUser.username : 'nobody'}
+            </Text>
             <Text style={{color: 'lightgrey'}}>5.00 *</Text>
           </View>
         </View>

@@ -13,12 +13,9 @@ import {getCar, listOrders} from '../../graphql/queries';
 import {updateCar, updateOrder} from '../../graphql/mutations';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDR2YUfnM9t9YIqMuLtCe-8iSG2hul3kJU';
-const origin = {latitude: 37.3318456, longitude: -122.0296002};
-const destination = {latitude: 37.771707, longitude: -122.4053769};
 
 const HomeScreen = () => {
   const [car, setCar] = useState(null);
-  const [myPosition, setMyPosition] = useState(null);
   const [order, setOrder] = useState(null);
   const [newOrders, setNewOrders] = useState([]);
 
@@ -28,6 +25,9 @@ const HomeScreen = () => {
       const carData = await API.graphql(
         graphqlOperation(getCar, {id: userData.attributes.sub}),
       );
+
+      console.log('carData');
+      console.log(carData.data.getCar);
       setCar(carData.data.getCar);
     } catch (e) {
       console.error(e);
@@ -39,9 +39,11 @@ const HomeScreen = () => {
       const ordersData = await API.graphql(
         graphqlOperation(listOrders, {filter: {status: {eq: 'NEW'}}}),
       );
+
+      console.log(ordersData);
       setNewOrders(ordersData.data.listOrders.items);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
@@ -64,8 +66,12 @@ const HomeScreen = () => {
       const orderData = await API.graphql(
         graphqlOperation(updateOrder, {input}),
       );
+      console.log('orderData');
+      console.log(orderData.data.updateOrder);
       setOrder(orderData.data.updateOrder);
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
 
     setNewOrders(newOrders.slice(1));
   };
@@ -129,7 +135,7 @@ const HomeScreen = () => {
     }
     return {
       latitude: order.originLatitude,
-      longitude: order.oreiginLongitude,
+      longitude: order.originLongitude,
     };
   };
 
