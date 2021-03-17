@@ -906,6 +906,37 @@ type Order
 
 - When the car changes position, update this the backend
 
+### User Side app
+
+- Create the order page(a map, with the position of the car)
+- Subscribe to car position updates
+
+```
+> amplify console
+
+// 직접 쿼리에 data을 넣어보기
+
+mutation UpdateOrder {
+  updateOrder(input: {
+    id: //orderId,
+    status: "PICKING_UP_CLIENT",
+  carId: // isActive: true 상태의 carId
+  }) {
+    updatedAt
+    type
+    status
+    originLongitude
+    originLatitude
+    id
+    destLongitude
+    createdAt
+    destLatitude
+    carId
+    userId
+  }
+}
+```
+
 ## Error
 
 - 1. jdk 설치 문제
